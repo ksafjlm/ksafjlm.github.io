@@ -1,0 +1,15 @@
+Master page for the Website.
+
+Password to change timer and code: 3811475 (just turn the letters "change" into their respective number C-3, H-8, A-1 etc.)
+Password to start the timer: 192011820 (just turn the letters "start" into their respective number S-19, T-20, A-1 etc.)
+
+The whole process will go something like this:
+
+type 3811475 to change the timer & code
+now change the timer and code to the desired values
+click "submit"
+
+when you are ready to start the escape room type 192011820 and the timer will start counting down.
+
+if the youth don't enter the correct code in time then the screen will dispaly a message saying they lost. 
+But if they enter the right code before the timer runs out then the timer wil pause and they win!

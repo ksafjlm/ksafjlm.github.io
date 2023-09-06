@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Awesome Escape room of awesomeness</title>
+    <link rel="stylesheet" href="./reset.css" />
+    <link rel="stylesheet" href="./style.css" />
+
+    <!-- Icons from font awesome -->
+    <script
+      src="https://kit.fontawesome.com/88e79ad191.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <main>
+      <!-- <header></header> -->
+      <section>
+        <h2 id="timer-title">Hurry the timer is counting down!</h2>
+        <!-- <div id="timer">
+          <div id="timer-animation"></div>
+        </div> -->
+        <div
+          id="timer"
+          class="timer animate no-round"
+          style="--p: 100; --c: orange"
+        >
+          <p id="timer-text"></p>
+        </div>
+      </section>
+
+      <section class="num-pad">
+        <form>
+          <input id="code-input" type="text" disabled="true" />
+
+          <div class="num-pad-container">
+            <div class="num-pad-row">
+              <button class="num-key">1</button>
+              <button class="num-key">2</button>
+              <button class="num-key">3</button>
+            </div>
+            <div class="num-pad-row">
+              <button class="num-key">4</button>
+              <button class="num-key">5</button>
+              <button class="num-key">6</button>
+            </div>
+            <div class="num-pad-row">
+              <button class="num-key">7</button>
+              <button class="num-key">8</button>
+              <button class="num-key">9</button>
+            </div>
+            <div class="num-pad-row">
+              <button class="num-key num-key-back">X</button>
+              <button class="num-key">0</button>
+              <button type="submit" class="num-key num-key-enter">-></button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="change">
+        <form id="change-stuff-form">
+          <label for="change-timer">Timer</label>
+          <div class="change-timer">
+            <label for="change-timer-hours">Hours</label>
+            <input id="change-timer-hours" type="number" />
+          </div>
+          <div class="change-timer">
+            <label for="change-timer-minutes">Minutes</label>
+            <input id="change-timer-minutes" type="number" />
+          </div>
+          <!-- </div>
+            <label for="change-timer-seconds">Seconds</label>
+            <input id="change-timer-seconds" type="number" />
+        </div> -->
+          <div>
+            <label for="change-code">Code</label>
+            <input id="change-code" type="number" />
+          </div>
+          <button id="change-stuff">Submit</button>
+        </form>
+      </section>
+
+      <footer>
+        <div class="playlist">
+          <h4 id="playlist-title">Song Title</h4>
+          <div class="playlist-buttons">
+            <button class="playlist-button">
+              <i class="fa-sharp fa-solid fa-backward-step"></i>
+            </button>
+            <button id="play-button" class="playlist-button">
+              <i class="fa-regular fa-circle-play"></i>
+            </button>
+            <button class="playlist-button">
+              <i class="fa-sharp fa-solid fa-backward-step fa-rotate-180"></i>
+            </button>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </body>
+  <script src="index.js" type="module" defer></script>
+</html>

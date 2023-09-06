@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Awesome Escape room app thing of awesomeness</title>
+    <!-- <link rel="stylesheet" href="./reset.css" />
+    <link rel="stylesheet" href="./style.css" /> -->
+    <link rel="icon" href="./favicon.ico" type="image/x-icon" />
+
+    <!-- Icons from font awesome -->
+    <script
+      src="https://kit.fontawesome.com/88e79ad191.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <style>
+    /********************* Global ***********************/
+
+    body {
+      margin: none;
+
+      color: rgb(41, 29, 38);
+    }
+
+    /********************* top of page ***********************/
+
+    .title {
+      margin-top: 0;
+      text-align: center;
+    }
+
+    /********************* Timer ***********************/
+
+    #timer-title {
+      margin-top: 1rem;
+      text-align: center;
+    }
+
+    /* @property --p {
+      syntax: "<number>";
+      inherits: true;
+      initial-value: 1;
+    } */
+
+    .paused-timer {
+      --time: 5s;
+      --p: 50;
+      --b: 22px;
+      --w: 150px;
+      --c1: red;
+      --c2: blue;
+      --cby: 0%;
+
+      --color: color-mix(in srgb, var(--c2) var(--cby), var(--c1));
+
+      position: relative;
+      width: var(--w);
+      margin: auto;
+      aspect-ratio: 1;
+
+      text-align: center;
+      vertical-align: middle;
+      line-height: var(--w);
+
+      font-size: 25px;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+
+    .paused-timer:before,
+    .paused-timer:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+
+    .paused-timer:before {
+      inset: 0;
+      background: radial-gradient(farthest-side, var(--color) 98%, #0000)
+          top/var(--b) var(--b) no-repeat,
+        conic-gradient(var(--color) calc(var(--p) * 1%), #0000 0);
+      -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--b)),
+        #000 calc(100% - var(--b))
+      );
+      mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--b)),
+        #000 calc(100% - var(--b))
+      );
+
+      background-size: 0 0, auto;
+    }
+    .paused-timer:after {
+      inset: calc(50% - var(--b) / 2);
+      background: var(--color);
+      transform: rotate(calc(var(--p) * 3.6deg))
+        translateY(calc(50% - var(--w) / 2));
+
+      content: none;
+    }
+
+    .timer {
+      --max: 2s;
+      --time: 5s;
+      --p: 20;
+      --b: 22px;
+      --w: 150px;
+      --c1: red;
+      --c2: blue;
+      --cby: 0%;
+
+      --color: color-mix(in srgb, var(--c2) var(--cby), var(--c1));
+
+      position: relative;
+      width: var(--w);
+      margin: auto;
+      aspect-ratio: 1;
+
+      text-align: center;
+      vertical-align: middle;
+      line-height: var(--w);
+
+      font-size: 25px;
+      font-weight: bold;
+      font-family: sans-serif;
+    }
+    .timer:before,
+    .timer:after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+    }
+    .timer:before {
+      inset: 0;
+      background: radial-gradient(farthest-side, var(--color) 98%, #0000)
+          top/var(--b) var(--b) no-repeat,
+        conic-gradient(var(--color) calc(var(--p) * 1%), #0000 0);
+      -webkit-mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--b)),
+        #000 calc(100% - var(--b))
+      );
+      mask: radial-gradient(
+        farthest-side,
+        #0000 calc(99% - var(--b)),
+        #000 calc(100% - var(--b))
+      );
+
+      background-size: 0 0, auto;
+    }
+    .timer:after {
+      inset: calc(50% - var(--b) / 2);
+      background: var(--color);
+      transform: rotate(calc(var(--p) * 3.6deg))
+        translateY(calc(50% - var(--w) / 2));
+
+      content: none;
+    }
+    .animate {
+      animation: timer var(--time) linear 0s 1 both;
+    }
+    @keyframes timer {
+      from {
+        --p: var(--max);
+        /* --cby: 0%; */
+      }
+      to {
+        --p: 0;
+        /* --cby: 100%; */
+      }
+    }
+
+    #timer-text {
+      height: 100%;
+      width: 100%;
+    }
+
+    /********************* num pad ***********************/
+
+    .num-pad {
+      margin-top: 10px;
+      text-align: center;
+    }
+
+    #code-input {
+      height: 30px;
+      width: 200px;
+
+      border: solid 2px black;
+
+      font-size: x-large;
+      text-align: center;
+      letter-spacing: 4px;
+    }
+
+    .num-pad-container {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .num-pad-row {
+      grid-template-rows: 1fr 1fr 1fr;
+    }
+
+    .num-key {
+      height: 50px;
+      width: 50px;
+      margin: 5px;
+
+      background-color: rgb(44, 111, 159);
+      color: white;
+      border: none;
+
+      font-size: x-large;
+    }
+
+    .num-key-back,
+    .num-key-enter {
+      background-color: rgb(196, 14, 14);
+    }
+
+    /********************* all powerfull stuff ***********************/
+
+    .change {
+      margin-top: 40px;
+      margin-left: 40px;
+      margin-bottom: 25px;
+    }
+
+    .change-timer {
+      margin-bottom: 5px;
+      margin-left: 20px;
+    }
+
+    .change input {
+      display: block;
+      border: 1px solid black;
+    }
+
+    .change button {
+      height: 30px;
+      width: 100px;
+      margin-top: 5px;
+
+      background-color: rgb(50, 200, 80);
+      border: none;
+    }
+
+    /********************* Playlist ***********************/
+    .playlist {
+      height: 100px;
+      width: 85vw;
+      margin: auto;
+      padding: 2px;
+
+      /* position: absolute; */
+      top: 85vh;
+      left: 0;
+      right: 0;
+
+      border-radius: 6px;
+
+      background-color: rgba(28, 29, 31, 0.75);
+      backdrop-filter: blur(3px);
+    }
+
+    .playlist-title {
+      margin: 5px 0 15px 0;
+
+      font-family: sans-serif;
+      font-weight: 200;
+
+      text-align: center;
+      color: white;
+    }
+
+    .playlist-buttons {
+      display: flex;
+      text-align: center;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .playlist-button {
+      font-size: 2rem;
+      margin: 0 5px;
+      padding: 0 7px;
+
+      border: none;
+      background-color: transparent;
+      color: white;
+    }
+    #play-button {
+      font-size: 3rem;
+    }
+  </style>
+
+  <body>
+    <main>
+      <!-- <header></header> -->
+      <section>
+        <h2 id="timer-title">Hurry the timer is counting down!</h2>
+        <!-- <div id="timer">
+          <div id="timer-animation"></div>
+        </div> -->
+        <div
+          id="timer"
+          class="timer animate no-round"
+          style="--p: 100; --c: orange"
+        >
+          <p id="timer-text"></p>
+        </div>
+      </section>
+
+      <section class="num-pad">
+        <form>
+          <input id="code-input" type="text" disabled="true" />
+
+          <div class="num-pad-container">
+            <div class="num-pad-row">
+              <button class="num-key">1</button>
+              <button class="num-key">2</button>
+              <button class="num-key">3</button>
+            </div>
+            <div class="num-pad-row">
+              <button class="num-key">4</button>
+              <button class="num-key">5</button>
+              <button class="num-key">6</button>
+            </div>
+            <div class="num-pad-row">
+              <button class="num-key">7</button>
+              <button class="num-key">8</button>
+              <button class="num-key">9</button>
+            </div>
+            <div class="num-pad-row">
+              <button class="num-key num-key-back">X</button>
+              <button class="num-key">0</button>
+              <button type="submit" class="num-key num-key-enter">-></button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <section class="change">
+        <form id="change-stuff-form">
+          <label for="change-timer">Timer</label>
+          <div class="change-timer">
+            <label for="change-timer-hours">Hours</label>
+            <input id="change-timer-hours" type="number" />
+          </div>
+          <div class="change-timer">
+            <label for="change-timer-minutes">Minutes</label>
+            <input id="change-timer-minutes" type="number" />
+          </div>
+          <!-- </div>
+            <label for="change-timer-seconds">Seconds</label>
+            <input id="change-timer-seconds" type="number" />
+        </div> -->
+          <div>
+            <label for="change-code">Code</label>
+            <input id="change-code" type="number" />
+          </div>
+          <button id="change-stuff">Submit</button>
+        </form>
+      </section>
+
+      <footer>
+        <div class="playlist">
+          <h4 class="playlist-title">Song Title</h4>
+          <div class="playlist-buttons">
+            <button class="playlist-button">
+              <i class="fa-sharp fa-solid fa-backward-step"></i>
+            </button>
+            <button id="play-button" class="playlist-button">
+              <i class="fa-regular fa-circle-play"></i>
+            </button>
+            <button class="playlist-button">
+              <i class="fa-sharp fa-solid fa-backward-step fa-rotate-180"></i>
+            </button>
+          </div>
+        </div>
+      </footer>
+    </main>
+  </body>
+
+  <script>
+    "use-strict";
+
+    const timerTitleElement = document.getElementById("timer-title");
+    const timerElement = document.getElementById("timer");
+    const timerTextElement = document.getElementById("timer-text");
+    const keys = Array.from(document.getElementsByClassName("num-key"));
+    const codeInput = document.getElementById("code-input");
+
+    const changeStuffForm = document.getElementById("change-stuff-form");
+    // const changeTimerSecondsInput = document.getElementById("change-timer-seconds");
+    const changeTimerMinutesInput = document.getElementById(
+      "change-timer-minutes"
+    );
+    const changeTimerHoursInput = document.getElementById("change-timer-hours");
+    const changeCodeInput = document.getElementById("change-code");
+    const changeStuffBtn = document.getElementById("change-stuff");
+
+    const playButtonElement = document.getElementById("play-button");
+
+    /******************************* Helper functions ***********************************/
+
+    // seconds to string
+    String.prototype.toHHMMSS = function () {
+      var sec_num = parseInt(this, 10); // don't forget the second param
+      var hours = Math.floor(sec_num / 3600);
+      var minutes = Math.floor((sec_num - hours * 3600) / 60);
+      var seconds = sec_num - hours * 3600 - minutes * 60;
+
+      // if (hours < 10) {
+      //   hours = "0" + hours;
+      // }
+      if (minutes < 10) {
+        minutes = "0" + minutes;
+      }
+      if (seconds < 10) {
+        seconds = "0" + seconds;
+      }
+      return hours + ":" + minutes + ":" + seconds;
+    };
+
+    // local storage
+    function setCounting(c) {
+      counting = c;
+      localStorage.setItem("timerRunning", c);
+    }
+
+    // CSS property (messed up html colors when it was in the style tag???)
+    window.CSS.registerProperty({
+      name: "--p",
+      syntax: "<number>",
+      inherits: true,
+      initialValue: 1,
+    });
+
+    let timerInterval;
+    let maxTimer = localStorage.getItem("maxTimer") ?? 5 * 60;
+    let timer = localStorage.getItem("timer");
+    let counting = localStorage.getItem("timerRunning") === "true" ?? false;
+
+    let timeOfLastGuess = 6;
+    let timeOfLastMessage = 0;
+    let shouldMessage = false;
+
+    let password = 12; //3811475;
+    let allPowerfull = localStorage.getItem("allPowerfull") === "true" ?? false;
+    let startTimerCode = 34; //192011820;
+
+    let code = localStorage.getItem("code") ?? 1234;
+    let currentInput = [];
+    let tries = localStorage.getItem("tries") ?? 0;
+
+    let lost = localStorage.getItem("lost") === "true" ?? false;
+    let won = localStorage.getItem("won") === "true" ?? false;
+
+    const backBtn = keys[9];
+    const submitBtn = keys[11];
+
+    const hurryMessages = [
+      "Hurry!",
+      "You can do it!",
+      "Time's running out!",
+      "Hurry the clock is ticking!",
+      "If you win it will be awesome.",
+      "What's the code?",
+      "Never give up.",
+    ];
+
+    // initialize after refresh
+    if (counting) startTimer();
+    else stopTimer();
+
+    if (allPowerfull) onOnPowerfull();
+    else hideStuff();
+
+    if (won) win();
+    if (lost) {
+      timer = 0;
+      onTimerZero();
+    }
+
+    /********************** Timer ************************/
+
+    function setTimerTitle(message) {
+      timerTitleElement.textContent = message.toString();
+    }
+
+    function toggleTimer() {
+      if (!counting) {
+        startTimer();
+      } else {
+        stopTimer();
+      }
+    }
+
+    function timerFunc() {
+      if (counting) {
+        if (timer <= 0) {
+          onTimerZero();
+          setCounting(false);
+          return;
+        }
+
+        timer--;
+        localStorage.setItem("timer", timer);
+
+        if (timeOfLastGuess - timer > 3 && shouldMessage) {
+          setTimerTitle(
+            hurryMessages[Math.floor(Math.random() * hurryMessages.length)]
+          );
+          shouldMessage = false;
+          timeOfLastMessage = timer;
+        } else if (
+          timeOfLastMessage - timer > 60 * 5 &&
+          timeOfLastGuess - timer > 5
+        ) {
+          setTimerTitle(
+            hurryMessages[Math.floor(Math.random() * hurryMessages.length)]
+          );
+          timeOfLastMessage = timer;
+        }
+        timerTextElement.textContent = timer.toString().toHHMMSS();
+      }
+    }
+
+    function startTimer() {
+      if (won || allPowerfull || lost) {
+        setTimerTitle(
+          "Can't start timer if you are in All powerfull mode, or if you won or lost."
+        );
+        clearInterval(timerInterval);
+        return;
+      }
+
+      localStorage.setItem("timerRunning", true);
+
+      const percentage = (100 * timer) / maxTimer;
+
+      timerElement.className = "timer animate no-round";
+      timerElement.style = `--p: 100;  --c1: rgb(16, 47, 59); --c2: yellow; --time: ${
+        maxTimer - (maxTimer - timer)
+      }s; --max: ${percentage};`;
+
+      setTimerTitle("Hurry the clock is ticking!");
+
+      setCounting(true);
+      timerInterval = setInterval(timerFunc, 1000, [timer]);
+    }
+
+    function stopTimer() {
+      localStorage.setItem("timerRunning", false);
+      localStorage.setItem("timer", timer);
+
+      const percentage = (100 * timer) / maxTimer;
+
+      timerElement.className = "paused-timer no-round";
+      timerElement.style = `--p: ${percentage}; --c1: rgb(50, 200, 80); --c2: yellow;`;
+
+      timerTextElement.textContent = (timer || maxTimer || 100)
+        .toString()
+        .toHHMMSS();
+
+      setTimerTitle("Let's chill, the timer is paused");
+
+      setCounting(false);
+      clearInterval(timerInterval);
+    }
+
+    function win() {
+      localStorage.setItem("won", true);
+      localStorage.setItem("lost", false);
+
+      stopTimer();
+
+      clearCurrentInput();
+      setTimerTitle("Yay!!!");
+    }
+
+    function clearCurrentInput() {
+      currentInput = [];
+      updateCodeInput();
+    }
+
+    function updateCodeInput() {
+      codeInput.value = currentInput.join("");
+    }
+
+    // keys
+    keys.forEach((key) => {
+      key.addEventListener("click", keyListener);
+    });
+
+    function keyListener(e) {
+      e.preventDefault();
+      const indexOf = keys.indexOf(e.target);
+
+      // don't add to the code if clicked back or enter
+      if (indexOf != 9 && indexOf != 11) {
+        const number = indexOf === 10 ? 0 : keys.indexOf(e.target) + 1;
+
+        currentInput.push(number);
+      }
+      updateCodeInput();
+    }
+
+    // back button
+    backBtn.addEventListener("click", onClickBack);
+
+    function onClickBack() {
+      currentInput.pop();
+      updateCodeInput();
+    }
+
+    // enter button
+    submitBtn.addEventListener("click", onSubmitForm);
+
+    function onSubmitForm() {
+      // input is same as password
+      if (currentInput.join("").toString() === password.toString()) {
+        onOnPowerfull();
+        // input is same as startTimerCode
+      } else if (
+        currentInput.join("").toString() === startTimerCode.toString()
+      ) {
+        console.log("Pause/Play Timer");
+
+        toggleTimer();
+        clearCurrentInput();
+      }
+      // input is same as code
+      else if (currentInput.join("").toString() === code.toString()) {
+        console.log("YAY");
+
+        timeOfLastGuess = timer;
+        if (!lost) win();
+      }
+      // code was wrong
+      else {
+        console.log("AW MAN");
+        setTimerTitle("Wrong Code!");
+
+        clearCurrentInput();
+
+        timeOfLastGuess = timer;
+        shouldMessage = true;
+        tries++;
+        localStorage.setItem("tries", localStorage.getItem("tries") ?? 0 + 1);
+      }
+    }
+
+    function onTimerZero() {
+      localStorage.setItem("lost", true);
+
+      console.log("BOOOOOOM");
+      lost = true;
+      timerTextElement.textContent = "You Lose!";
+      setTimerTitle("Too slow. I win.");
+    }
+
+    /******************************* All powerfull stuff ****************************/
+
+    function onOnPowerfull() {
+      console.log("Now we are all powerfull");
+
+      showStuff();
+      stopTimer();
+      clearCurrentInput();
+
+      localStorage.setItem("won", false);
+      localStorage.setItem("lost", false);
+      localStorage.setItem("tries", 0);
+      localStorage.setItem("allPowerfull", true);
+
+      allPowerfull = true;
+
+      setTimerTitle("Welcome master.");
+    }
+
+    changeStuffBtn.addEventListener("click", onChangeStuff);
+    function onChangeStuff(e) {
+      e.preventDefault();
+
+      const hours = changeTimerHoursInput.value * 60 * 60;
+      const minutes = changeTimerMinutesInput.value * 60;
+      //   const seconds = changeTimerSecondsInput.value;
+      const time = hours + minutes; // + seconds;
+      console.log(time);
+
+      maxTimer = time;
+      timer = time;
+      timerTextElement.textContent = timer.toString().toHHMMSS();
+      code = changeCodeInput.value || code;
+
+      localStorage.setItem("allPowerfull", false);
+      localStorage.setItem("code", code);
+      localStorage.setItem("timer", timer);
+      localStorage.setItem("maxTimer", maxTimer);
+
+      setTimerTitle(
+        `Timer set to ${timer.toString().toHHMMSS()} and code set to ${code}`
+      );
+
+      hideStuff();
+    }
+
+    function hideStuff() {
+      changeStuffForm.style = "visibility: hidden; height: 5px;";
+      allPowerfull = false;
+    }
+    function showStuff() {
+      changeStuffForm.style = "visibility: shown;";
+    }
+
+    /******************************* All powerfull stuff ****************************/
+
+    playButtonElement.addEventListener("click", playMusic);
+    async function playMusic() {
+      const music = await fetch(
+        "https://api.music.amazon.dev/v1/playlists/434cbeb2-8ce8-4781-9030-b9f459cad9a0",
+        { method: "GET" }
+      );
+      console.log(music);
+      // new Audio("").play();
+    }
+  </script>
+</html>

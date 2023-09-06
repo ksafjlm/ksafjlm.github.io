@@ -1,0 +1,296 @@
+/********************* Global ***********************/
+
+body {
+  margin: none;
+
+  color: rgb(41, 29, 38);
+}
+
+/********************* top of page ***********************/
+
+.title {
+  margin-top: 0;
+  text-align: center;
+}
+
+/********************* Timer ***********************/
+
+#timer-title {
+  margin-top: 1rem;
+  line-height: 2rem;
+  text-align: center;
+}
+@media (max-height: 630px) {
+  #timer-title {
+    font-size: large;
+    line-height: 1rem;
+    margin-top: 0.2rem;
+    text-align: center;
+  }
+}
+
+/* @property --p {
+      syntax: "<number>";
+      inherits: true;
+      initial-value: 1;
+    } */
+
+.paused-timer {
+  --time: 5s;
+  --p: 50;
+  --b: 22px;
+  --w: 150px;
+  --c1: red;
+  --c2: blue;
+  --cby: 0%;
+
+  --color: color-mix(in srgb, var(--c2) var(--cby), var(--c1));
+
+  position: relative;
+  width: var(--w);
+  margin: auto;
+  aspect-ratio: 1;
+
+  text-align: center;
+  vertical-align: middle;
+  line-height: var(--w);
+
+  font-size: 25px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+
+.paused-timer:before,
+.paused-timer:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+
+.paused-timer:before {
+  inset: 0;
+  background: radial-gradient(farthest-side, var(--color) 98%, #0000)
+      top/var(--b) var(--b) no-repeat,
+    conic-gradient(var(--color) calc(var(--p) * 1%), #0000 0);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(99% - var(--b)),
+    #000 calc(100% - var(--b))
+  );
+  mask: radial-gradient(
+    farthest-side,
+    #0000 calc(99% - var(--b)),
+    #000 calc(100% - var(--b))
+  );
+
+  background-size: 0 0, auto;
+}
+.paused-timer:after {
+  inset: calc(50% - var(--b) / 2);
+  background: var(--color);
+  transform: rotate(calc(var(--p) * 3.6deg))
+    translateY(calc(50% - var(--w) / 2));
+
+  content: none;
+}
+
+.timer {
+  --max: 2s;
+  --time: 5s;
+  --p: 20;
+  --b: 22px;
+  --w: 150px;
+  --c1: red;
+  --c2: blue;
+  --cby: 0%;
+
+  --color: color-mix(in srgb, var(--c2) var(--cby), var(--c1));
+
+  position: relative;
+  width: var(--w);
+  margin: auto;
+  aspect-ratio: 1;
+
+  text-align: center;
+  vertical-align: middle;
+  line-height: var(--w);
+
+  font-size: 25px;
+  font-weight: bold;
+  font-family: sans-serif;
+}
+.timer:before,
+.timer:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+}
+.timer:before {
+  inset: 0;
+  background: radial-gradient(farthest-side, var(--color) 98%, #0000)
+      top/var(--b) var(--b) no-repeat,
+    conic-gradient(var(--color) calc(var(--p) * 1%), #0000 0);
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    #0000 calc(99% - var(--b)),
+    #000 calc(100% - var(--b))
+  );
+  mask: radial-gradient(
+    farthest-side,
+    #0000 calc(99% - var(--b)),
+    #000 calc(100% - var(--b))
+  );
+
+  background-size: 0 0, auto;
+}
+.timer:after {
+  inset: calc(50% - var(--b) / 2);
+  background: var(--color);
+  transform: rotate(calc(var(--p) * 3.6deg))
+    translateY(calc(50% - var(--w) / 2));
+
+  content: none;
+}
+.animate {
+  animation: timer var(--time) linear 0s 1 both;
+}
+@keyframes timer {
+  from {
+    --p: var(--max);
+    /* --cby: 0%; */
+  }
+  to {
+    --p: 0;
+    /* --cby: 100%; */
+  }
+}
+
+#timer-text {
+  height: 100%;
+  width: 100%;
+}
+
+/********************* num pad ***********************/
+
+.num-pad {
+  margin-top: 10px;
+  text-align: center;
+}
+
+#code-input {
+  height: 30px;
+  width: 200px;
+
+  border: solid 2px black;
+
+  font-size: x-large;
+  text-align: center;
+  letter-spacing: 4px;
+}
+
+.num-pad-container {
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.num-pad-row {
+  grid-template-rows: 1fr 1fr 1fr;
+}
+
+.num-key {
+  height: 50px;
+  width: 50px;
+  margin: 5px;
+
+  background-color: rgb(44, 111, 159);
+  color: white;
+  border: none;
+
+  font-size: x-large;
+}
+@media (max-height: 480px) {
+  .num-key {
+    height: 30px;
+    width: 30px;
+    margin: 3px;
+  }
+}
+
+.num-key-back,
+.num-key-enter {
+  background-color: rgb(196, 14, 14);
+}
+
+/********************* all powerfull stuff ***********************/
+
+.change {
+  margin-top: 40px;
+  margin-left: 40px;
+  margin-bottom: 5px;
+}
+
+.change-timer {
+  margin-bottom: 5px;
+  margin-left: 20px;
+}
+
+.change input {
+  display: block;
+  border: 1px solid black;
+}
+
+.change button {
+  height: 30px;
+  width: 100px;
+  margin-top: 5px;
+
+  background-color: rgb(50, 200, 80);
+  border: none;
+}
+
+/********************* Playlist ***********************/
+.playlist {
+  height: 120px;
+  width: 85vw;
+  margin: auto;
+  padding: 2px;
+
+  /* position: absolute; */
+  top: 85vh;
+  left: 0;
+  right: 0;
+
+  border-radius: 6px;
+
+  background-color: rgba(28, 29, 31, 0.75);
+  backdrop-filter: blur(3px);
+}
+
+#playlist-title {
+  margin: 5px 0 15px 0;
+
+  font-family: sans-serif;
+  font-weight: 200;
+
+  text-align: center;
+  color: white;
+}
+
+.playlist-buttons {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.playlist-button {
+  font-size: 2rem;
+  margin: 0 5px;
+  padding: 0 7px;
+
+  border: none;
+  background-color: transparent;
+  color: white;
+}
+#play-button {
+  font-size: 3rem;
+}
